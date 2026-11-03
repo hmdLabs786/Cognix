@@ -9,9 +9,10 @@ class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final questionCount = QuizData.generalKnowledgeQuestions.length;
+    final totalQuestions = QuizData.questions.length;
 
     return Scaffold(
+      backgroundColor: AppTheme.background,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -20,68 +21,101 @@ class StartScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Top Icon / Illustration Badge
+                // Stylized Cognix App Logo
                 Center(
                   child: Container(
-                    width: 96,
-                    height: 96,
+                    width: 90,
+                    height: 90,
                     decoration: BoxDecoration(
-                      color: AppTheme.primaryColor.withAlpha(25),
+                      color: AppTheme.surface,
                       shape: BoxShape.circle,
+                      border: Border.all(
+                        color: AppTheme.border,
+                        width: 1.5,
+                      ),
                     ),
-                    child: const Icon(
-                      Icons.psychology_rounded,
-                      size: 52,
-                      color: AppTheme.primaryColor,
+                    child: Center(
+                      child: Container(
+                        width: 58,
+                        height: 58,
+                        decoration: BoxDecoration(
+                          color: AppTheme.primary.withValues(alpha: 0.15),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.psychology_rounded,
+                          size: 34,
+                          color: AppTheme.primaryLight,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 28),
+                const SizedBox(height: 24),
 
-                // Title & Subtitle
+                // Title
                 Text(
-                  'TSG Quiz Challenge',
-                  style: theme.textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.w800,
+                  'Cognix',
+                  style: theme.textTheme.headlineLarge,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+
+                // Subtitle
+                Text(
+                  'General Knowledge Challenge',
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: AppTheme.primaryLight,
+                    fontWeight: FontWeight.w600,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
-                Text(
-                  'Test your general knowledge across science, history, geography, and tech!',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontSize: 15,
+                const Text(
+                  'Answer 10 curated questions across science, history, geography, and culture.',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: AppTheme.textSecondary,
                     height: 1.4,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 32),
 
-                // Informational Card
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: [
-                        _buildInfoRow(
-                          icon: Icons.format_list_numbered_rounded,
-                          title: 'Total Questions',
-                          value: '$questionCount Questions',
-                        ),
-                        const Divider(height: 24, color: Color(0xFFF1F5F9)),
-                        _buildInfoRow(
-                          icon: Icons.touch_app_rounded,
-                          title: 'Format',
-                          value: 'Multiple Choice (4 Options)',
-                        ),
-                        const Divider(height: 24, color: Color(0xFFF1F5F9)),
-                        _buildInfoRow(
-                          icon: Icons.verified_rounded,
-                          title: 'Feedback',
-                          value: 'Instant Answer Verification',
-                        ),
-                      ],
-                    ),
+                // Features Info Card
+                Container(
+                  padding: const EdgeInsets.all(20.0),
+                  decoration: BoxDecoration(
+                    color: AppTheme.surface,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: AppTheme.border, width: 1.2),
+                  ),
+                  child: Column(
+                    children: [
+                      _buildInfoRow(
+                        icon: Icons.format_list_numbered_rounded,
+                        label: 'Total Questions',
+                        value: '$totalQuestions Questions',
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12.0),
+                        child: Divider(height: 1, color: AppTheme.border),
+                      ),
+                      _buildInfoRow(
+                        icon: Icons.touch_app_rounded,
+                        label: 'Format',
+                        value: '4 Multiple Choice Options',
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12.0),
+                        child: Divider(height: 1, color: AppTheme.border),
+                      ),
+                      _buildInfoRow(
+                        icon: Icons.check_circle_outline_rounded,
+                        label: 'Answer Feedback',
+                        value: 'Instant Result Highlighting',
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 36),
@@ -101,12 +135,12 @@ class StartScreen extends StatelessWidget {
                       Text(
                         'Start Quiz',
                         style: TextStyle(
-                          fontSize: 17,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(width: 8),
-                      Icon(Icons.arrow_forward_rounded, size: 22),
+                      Icon(Icons.arrow_forward_rounded, size: 20),
                     ],
                   ),
                 ),
@@ -120,19 +154,19 @@ class StartScreen extends StatelessWidget {
 
   Widget _buildInfoRow({
     required IconData icon,
-    required String title,
+    required String label,
     required String value,
   }) {
     return Row(
       children: [
         Container(
-          width: 40,
-          height: 40,
+          width: 36,
+          height: 36,
           decoration: BoxDecoration(
-            color: const Color(0xFFF8FAFC),
+            color: AppTheme.surfaceElevated,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Icon(icon, size: 20, color: AppTheme.primaryColor),
+          child: Icon(icon, size: 18, color: AppTheme.primaryLight),
         ),
         const SizedBox(width: 14),
         Expanded(
@@ -140,7 +174,7 @@ class StartScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                title,
+                label,
                 style: const TextStyle(
                   fontSize: 12,
                   color: AppTheme.textSecondary,

@@ -1,49 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'screens/splash_screen.dart';
+import 'screens/start_screen.dart';
 import 'theme/app_theme.dart';
-import 'theme/theme_controller.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const LuminaQuizApp());
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+      systemNavigationBarColor: AppTheme.background,
+      systemNavigationBarIconBrightness: Brightness.light,
+    ),
+  );
+  runApp(const CognixApp());
 }
 
-class LuminaQuizApp extends StatelessWidget {
+class CognixApp extends StatelessWidget {
   final Widget? home;
 
-  const LuminaQuizApp({
+  const CognixApp({
     super.key,
     this.home,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder(
-      listenable: ThemeController.instance,
-      builder: (context, _) {
-        final isDark = ThemeController.instance.isDarkMode;
-        SystemChrome.setSystemUIOverlayStyle(
-          SystemUiOverlayStyle(
-            statusBarColor: Colors.transparent,
-            statusBarIconBrightness:
-                isDark ? Brightness.light : Brightness.dark,
-            systemNavigationBarColor:
-                isDark ? AppTheme.backgroundDark : AppTheme.backgroundLight,
-            systemNavigationBarIconBrightness:
-                isDark ? Brightness.light : Brightness.dark,
-          ),
-        );
-
-        return MaterialApp(
-          title: 'LuminaQuiz',
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
-          themeMode: ThemeController.instance.themeMode,
-          home: home ?? const SplashScreen(),
-        );
-      },
+    return MaterialApp(
+      title: 'Cognix',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.theme,
+      home: home ?? const StartScreen(),
     );
   }
 }
+
+// Aliases for compatibility
+typedef LuminaQuizApp = CognixApp;
+typedef TsgQuizApp = CognixApp;
